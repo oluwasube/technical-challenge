@@ -1,22 +1,18 @@
 import requests
 import csv
+import sys
 import os
 
 import time
-from datetime import datetime
 
 
 def collect_data(symbol, interval):
     base_url = "https://api.binance.com/api/v3/klines"
 
-    # start_time = int(time.time() * 1000) - \
-    #     (get_intervals(interval) * 1000)
-
     params = {
         "symbol": symbol,
         "interval": interval,
-        # "startTime": start_time,
-        "limit": 1000  # Maximum limit per request
+        "limit": 1000
     }
     response = requests.get(base_url, params=params)
     if response.status_code == 200:
@@ -30,7 +26,7 @@ def collect_data(symbol, interval):
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-        filename = f"{directory}/{symbol}_{interval}.csv"
+        filename = f"{symbol}_{interval}.csv"
 
         with open(filename, "w", newline="") as file:
             writer = csv.writer(file)
@@ -43,6 +39,6 @@ def collect_data(symbol, interval):
 
 
 if __name__ == "__main__":
-    symbol = "BTCUSDT"
-    interval = "4h"
+    symbol = input("Enter the symbol (e.g., BTCUSDT): ")
+    interval = input("Enter the interval (e.g., 4h): ")
     collect_data(symbol, interval)

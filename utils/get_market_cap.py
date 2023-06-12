@@ -32,6 +32,3 @@ def get_circulating_supply(symbol):
     else:
         return None
 
-
-market_cap = get_market_cap()
-print(market_cap)
