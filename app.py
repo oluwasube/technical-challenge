@@ -6,7 +6,6 @@ import plotly.graph_objects as go
 import pandas as pd
 
 
-
 # Create Flask app
 server = Flask(__name__)
 app = Dash(__name__, server=server)
