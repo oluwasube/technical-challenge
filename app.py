@@ -1,10 +1,8 @@
 import os
-import datetime
 from flask import Flask
 from dash import Dash, dcc, html
 import plotly.graph_objects as go
 import pandas as pd
-
 
 # Create Flask app
 server = Flask(__name__)
@@ -15,15 +13,17 @@ files = os.listdir(directory)
 csv_files = [file for file in files if file.endswith('.csv')]
 
 if len(csv_files) > 0:
-
     filename = csv_files[0]
     data_path = f"{directory}/{filename}"
     data = pd.read_csv(data_path)
+
+    # Extract the part of the CSV filename before the first "_"
+    csv_filename = filename.split("_", 1)[0]
 else:
     data = pd.DataFrame()
+    csv_filename = "No CSV file available"
 
 
-# Define layout
 app.layout = html.Div([
     html.H1('Candlestick Chart'),
     dcc.Graph(
@@ -39,7 +39,7 @@ app.layout = html.Div([
                 )
             ],
             'layout': go.Layout(
-                title='BTCUSDT Candlestick Chart',
+                title=f"{csv_filename} Candlestick Chart",
                 xaxis=dict(title='Date'),
                 yaxis=dict(title='Price')
             )
